@@ -1061,7 +1061,6 @@ const initialState = employees.map(emp => {
     <div className="flex flex-col h-full">
 
         <div className="flex-grow overflow-y-auto pr-2 space-y-2">
-`
                         {assignments.map((assign, index) => (
                             <div key={assign.name} className={`p-3 rounded-lg border transition-all ${assign.selected ? 'bg-indigo-50 border-indigo-200 shadow-sm' : 'bg-white border-slate-100 opacity-80 hover:opacity-100'} ${assign.onHoliday ? 'bg-slate-50 opacity-50 cursor-not-allowed' : ''}`}>
                                 <div className="flex items-center gap-4">
@@ -1860,7 +1859,14 @@ className="p-3 border-b border-r border-slate-200 font-bold text-center min-w-[1
 }, [viewMode, month, selectedWeek, schedule, bars, alerts, getDatesForPeriod]);
             
             const barForModal = editCellData ? bars.find(b => b.id === editCellData.barId) : null;
-            const enabledEmpsForModal = editCellData ? employees.filter(e => e.enabledBarIds.includes(editCellData.barId)) : [];
+            const enabledEmpsForModal = editCellData
+    ? (() => {
+        const filtered = employees.filter(e =>
+            (e.enabledBarIds || []).map(id => Number(id)).includes(Number(editCellData.barId))
+        );
+        return filtered.length > 0 ? filtered : employees;
+      })()
+    : [];
 
             return (
                 <div className="space-y-6 animate-fade-in">
