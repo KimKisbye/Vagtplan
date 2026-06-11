@@ -2152,7 +2152,7 @@ onClose={() => setEditModalOpen(false)}
         // App Component
         const App = () => {
             const [companyName, setCompanyName] = useLocalStorage('app_company_name', 'Virksomhedsnavn');
-            const [activeTab, setActiveTab] = useState('bars');
+            const [activeTab, setActiveTab] = useState('schedule');
             const [bars, setBars] = useLocalStorage('echoes_bars', []);
             const [employees, setEmployees] = useLocalStorage('echoes_employees', []);
             const [roles, setRoles] = useLocalStorage('echoes_roles', [{id: 1, name: 'Cameriere'}, {id: 2, name: 'Barman'}, {id: 3, name: 'Manager'}, {id: 4, name: 'Cuoco'}]);
@@ -2184,10 +2184,13 @@ const createShareLink = () => {
     };
 
     const encoded = encodeData(data);
-    const url = window.location.href.split('#')[0] + "#data=" + encoded;
+
+    const baseUrl = "https://kimkisbye.github.io/Vagtplan/Luxboat_ver3.html";
+
+    const url = baseUrl + "#data=" + encoded;
 
     navigator.clipboard.writeText(url);
-    alert("Link kopieret ✅\n\nSend det til andre");
+    alert("Link kopieret ✅\n\nSend det til medarbejdere");
 };
 useEffect(() => {
     const loadFromLink = () => {
@@ -2449,7 +2452,7 @@ useEffect(() => {
         month={scheduleMonth}
         setMonth={setScheduleMonth}
         exportToExcel={exportScheduleToExcel}
-        createShareLink={createShareLink}  // ✅ DET HER ER NYT
+        createShareLink={createShareLink}
     />
 )}
 
